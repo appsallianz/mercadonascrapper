@@ -1,5 +1,6 @@
-from ProductoMercadona import ProductoMercadona
+from Producto import ProductoMercadona
 from selenium.webdriver.common.by import By
+from datetime import datetime
 
 def ScrapingSubCategoria (nombre_categoria_principal, elemento) :
 
@@ -46,6 +47,6 @@ def ScrapingSubCategoria (nombre_categoria_principal, elemento) :
             listaProductos.append(
                 ProductoMercadona(nombre_categoria_principal, nombre_categoria_secundaria.text, nombre_subcategoria.text, descripcion.text, formato.text,
                                   " " if tamanio == None else tamanio.text, precio.text.split()[0],
-                                  precio.text.split()[1], unidad_venta.text))
+                                  precio.text.split()[1], unidad_venta.text, datetime.today().strftime('%Y-%m-%d')))
 
     return listaProductos

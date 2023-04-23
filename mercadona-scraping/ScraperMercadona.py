@@ -1,8 +1,9 @@
 # Librerias
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from ScrapingAccionesIniciales import ScrapingInicio
-from ScrapingCategoria import ScrapingCategoria
+from ScraperAccionesIniciales import ScrapingInicio
+from ScraperCategoria import ScrapingCategoria
+from datetime import datetime
 import pandas as pd
 
 # Opciones de navegación
@@ -11,6 +12,9 @@ options.add_argument('--start-maximized')
 options.add_argument('--disable-extensions')
 driver_path = 'chromedriver'
 driver = webdriver.Chrome(driver_path, chrome_options=options)
+
+# Obtenemos el user-agent
+print("User-agent: " + driver.execute_script("return navigator.userAgent"))
 
 # Inicializamos el navegador
 driver.get('https://tienda.mercadona.es/categories/')
@@ -31,7 +35,7 @@ for categoria_principal in categorias_principales:
 
     # Se genera el DataFrame y se guarda cada vez que se procesa una categoría principal
     df = pd.DataFrame([x.as_dict() for x in listaProductosMercadona])
-    df.to_csv('../dataset/productos_mercadona.csv', index=False)
+    df.to_csv('../dataset/productos_mercadona'+datetime.today().strftime('%Y-%m-%d')+ '.csv', index=False)
 
 # Resumen
 print("Productos obtenidos: ", len(listaProductosMercadona))
